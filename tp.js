@@ -10,7 +10,7 @@ var request = request.defaults({ jar: j })
 
 var stok = undefined;
 
-const host = '192.168.1.1';
+var host = '192.168.1.1';
 
 
 function router(url, form, callback) {
@@ -50,6 +50,10 @@ app.get('/router', function (req, res) {
     }
     const username = userInfo['admin'] || 'admin';
     const password = userInfo['password'] || 'password'; 
+    const ipAddress = userInfo["ipAddress"];
+    if (ipAddress !== undefined) {
+        host = ipAddress;
+    }
 
     router(url, preReqData, function (body) {
         let params = JSON.parse(body).result.password;
@@ -102,7 +106,7 @@ app.get('/list', function (req, res) {
 });
 
 app.get('*', function(req,res) {
-    res.send("<h2>login router: <br />/router?username=xxxx&password=xxxx</h2><br /><h2>list oneline mac address:<br /> /list</h2>");   
+    res.send("<h2>login router: <br />/router?username=xxxx&password=xxxx&ipAddress=xxx</h2><br /><h2>list oneline mac address:<br /> /list</h2>");   
     res.end("");  
 });
 
