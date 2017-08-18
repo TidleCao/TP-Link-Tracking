@@ -34,8 +34,7 @@ function router(url, form, callback) {
 
 app.get('/router', function (req, res) {
 
-    const url = `http://${host}/cgi-bin/luci/;stok=/login?form=login`;
-    const preReqData = { data: '{"method":"get"}' };
+
     console.log('/router:' + req.url);
     let components = req.url.split('?');
     let userInfo = {};
@@ -54,7 +53,10 @@ app.get('/router', function (req, res) {
     if (ipAddress !== undefined) {
         host = ipAddress;
     }
-
+    
+    console.log(`set username:${username}, password:${password}, ipAddress:${host}`);
+    const url = `http://${host}/cgi-bin/luci/;stok=/login?form=login`;
+    const preReqData = { data: '{"method":"get"}' };
     router(url, preReqData, function (body) {
         let params = JSON.parse(body).result.password;
         let encodedPassword = encrypt(password, params);
